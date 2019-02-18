@@ -23,7 +23,7 @@ namespace Scorecard
                 Description = "General stuff",
                 Weight = 1,
                 ScoreExpression = "(A + B) * D / C",
-                Fields = new ArrayList()
+                Fields = new List<Field>()
                 {
                     new YesNo()
                     {

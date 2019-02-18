@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Scorecard.Model
 {
@@ -10,7 +12,7 @@ namespace Scorecard.Model
         public string ScoreExpression { get; set; }
         public double Score => GetScore();
         public double WeightedScore => Score * Weight;
-        public ArrayList Fields { get; set; }
+        public List<Field> Fields { get; set; }
 
         public override string ToString()
         {
@@ -22,8 +24,13 @@ namespace Scorecard.Model
             var expression = string.Copy(ScoreExpression);
 
             // todo: validate the formula
-            foreach (dynamic field in Fields)
+            foreach (var field in Fields)
             {
+                if (field is Selection s)
+                {
+                    Console.WriteLine($"{field.Name}: " + s.SelectionList.Id);
+                }
+
                 expression = expression.Replace(field.Name, field.WeightedValue.ToString());
             }
 
