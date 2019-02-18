@@ -19,7 +19,7 @@ namespace Scorecard.Model
         public string Name { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public abstract FieldType Type { get; }
+        public FieldType Type => Enum.Parse<FieldType>(GetType().Name);
         public string Prompt { get; set; }
         public T Value { get; set; }
 
@@ -37,25 +37,21 @@ namespace Scorecard.Model
 
     public class YesNo : Field<bool>
     {
-        public override FieldType Type => FieldType.YesNo;
         public override double WeightedValue => Convert.ToInt32(Value) * Weight;
     }
 
     public class Numeric : Field<double>
     {
-        public override FieldType Type => FieldType.Numeric;
         public override double WeightedValue => Value * Weight;
     }
 
     public class Text : Field<string>
     {
-        public override FieldType Type => FieldType.Text;
         public override double WeightedValue => 1;
     }
 
     public class Selection : Field<KeyValuePair<int, string>>
     {
-        public override FieldType Type => FieldType.Selection;
         public override double WeightedValue => Value.Key * Weight;
         public SelectionList SelectionList { get; set; }
     }
